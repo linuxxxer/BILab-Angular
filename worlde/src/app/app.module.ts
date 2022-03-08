@@ -10,6 +10,7 @@ import { LetterComponent } from './components/letter/letter.component';
 import { GuessComponent } from './components/guess/guess.component';
 import { KeyboardComponent } from './components/keyboard/keyboard.component';
 import { GamePageComponent } from './pages/game-page/game-page.component';
+import { EndPageComponent } from './pages/end-page/end-page.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { GamePageComponent } from './pages/game-page/game-page.component';
     LetterComponent,
     GuessComponent,
     KeyboardComponent,
-    GamePageComponent
+    GamePageComponent,
+    EndPageComponent
   ],
   imports: [
     BrowserModule,
