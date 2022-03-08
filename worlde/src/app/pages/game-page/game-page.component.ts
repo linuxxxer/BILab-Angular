@@ -1,6 +1,8 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { ALPHABET, Guess, MAX_NUMBER_OF_GUESSES } from 'src/app/model/guess';
-import { GameService } from 'src/app/services/game.service';
+import {Component, HostListener, OnInit} from '@angular/core';
+import {ALPHABET, Guess, MAX_NUMBER_OF_GUESSES} from 'src/app/model/guess';
+import {GameService} from 'src/app/services/game.service';
+import {GuessResult} from "../../model/guess-result";
+import {Router} from "@angular/router";
 
 @Component({
   templateUrl: './game-page.component.html',
@@ -11,10 +13,12 @@ export class GamePageComponent implements OnInit {
   currentGuessNumber: number = 0;
   guesses: Guess[] = [];
 
-  constructor(private gameService: GameService) {}
+  constructor(private gameService: GameService,
+              private routerService: Router) {}
 
   ngOnInit(): void {
     // Fill the guesses array with empty guesses
+    console.log("currentGuessNumber: " + this.currentGuessNumber);
     for (let i = 0; i < MAX_NUMBER_OF_GUESSES; i++) {
       this.guesses.push({
         word: '',
@@ -28,9 +32,6 @@ export class GamePageComponent implements OnInit {
 
   @HostListener('document:keyup', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (this.gameService.isFinished()) {
-      return;
-    }
 
     const currentWord = this.guesses[this.currentGuessNumber].word;
     const key = event.key;
@@ -40,12 +41,17 @@ export class GamePageComponent implements OnInit {
         this.guesses[this.currentGuessNumber].matches = this.gameService.guess(currentWord);
         this.currentGuessNumber++;
       } else {
-        alert("Not in the word list!")
+        alert("Not in the word list!");
       }
     } else if (key == 'Backspace') {
       this.guesses[this.currentGuessNumber].word = currentWord.substring(0, currentWord.length - 1);
     } else if (ALPHABET.indexOf(key.toUpperCase()) != -1 && currentWord.length < 5) {
       this.guesses[this.currentGuessNumber].word += key.toUpperCase();
+    }
+    if (this.gameService.isFinished()) {
+      console.log("FINISHED");
+      this.routerService.navigateByUrl('end');
+      return;
     }
   }
 }

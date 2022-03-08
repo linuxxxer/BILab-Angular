@@ -3,6 +3,7 @@ import {Injectable} from "@angular/core";
 import {MAX_NUMBER_OF_GUESSES} from "../model/guess";
 import {GuessResult} from "../model/guess-result";
 import {tap} from 'rxjs';
+import {formatCurrency} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,9 @@ export class GameService {
   private word: string = '';
   private worldList: Array<string> = [];
   private guesses: Array<string> = [];
-
+//                              tries:  1  2  3  4  5  6 LOST
+  private statistics = { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "Lost": 0 };
+//                              index:  0  1  2  3  4  5  6
   constructor(private http: HttpClient) {}
 
   initWordList() {
@@ -24,6 +27,7 @@ export class GameService {
   }
 
   startGame() {
+    this.guesses = [];
     this.word = this.worldList[
       Math.round(Math.random() * this.worldList.length)
       ];
@@ -41,8 +45,38 @@ export class GameService {
   }
 
   isFinished(): Boolean {
-    return (this.guesses.length != 0 && this.guesses[this.guesses.length - 1] == this.word) ||
+    let finished = (this.guesses.length != 0 && this.guesses[this.guesses.length - 1] == this.word) ||
       this.guesses.length >= MAX_NUMBER_OF_GUESSES;
+    if (finished) {
+      let tries = this.guesses.length;
+      if (this.guesses[this.guesses.length - 1] == this.word) {
+        switch (this.guesses.length) {
+          case 1:
+            this.statistics["1"]++;
+            break;
+          case 2:
+            this.statistics["2"]++;
+            break;
+          case 3:
+            this.statistics["3"]++;
+            break;
+          case 4:
+            this.statistics["4"]++;
+            break;
+          case 5:
+            this.statistics["5"]++;
+            break;
+          case 6:
+            this.statistics["6"]++;
+            break;
+        }
+      } else {
+        this.statistics["Lost"]++;
+      }
+      console.log(this.statistics);
+
+    }
+    return finished;
   }
 
   calculateMatches(word: string): GuessResult[] {
@@ -80,6 +114,18 @@ export class GameService {
     }
 
     return result;
+  }
+
+  isGuessedCompletely(): boolean {
+    let current = this.guesses[this.guesses.length - 1];
+    if (current == this.word) {
+      return true;
+    }
+    return false;
+  }
+
+  getStatistics() {
+    return this.statistics;
   }
 
 }
