@@ -16,7 +16,7 @@ export class GameService {
 
   initWordList() {
     console.log("loading word list");
-    return this.http.get<string[]>('/assets/json/world-list.json').pipe(
+    return this.http.get<string[]>('/assets/json/word-list.json').pipe(
       tap(result => {
         this.worldList = result;
       })
