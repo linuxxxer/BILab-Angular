@@ -1,1 +1,46 @@
-<p>end-page works!</p>
+<h1 class="text-center">Game Over!</h1>
+<h3 class="text-center" [innerText]="guessedTheWord ? guessedText : notGuessedText"></h3>
+<h2 class="text-center">Statistics</h2>
+  <table>
+    <thead>
+      <tr>
+        <th class="text-center">Number of tries</th>
+        <th class="text-center">Games</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="text-center">1</td>
+        <td class="text-center">{{ statistics["1"] }}</td>
+      </tr>
+      <tr>
+        <td class="text-center">2</td>
+        <td class="text-center">{{ statistics["2"] }}</td>
+      </tr>
+      <tr>
+        <td class="text-center">3</td>
+        <td class="text-center">{{ statistics["3"] }}</td>
+      </tr>
+      <tr>
+        <td class="text-center">4</td>
+        <td class="text-center">{{ statistics["4"] }}</td>
+      </tr>
+      <tr>
+        <td class="text-center">5</td>
+        <td class="text-center">{{ statistics["5"] }}</td>
+      </tr>
+      <tr>
+        <td class="text-center">6</td>
+        <td class="text-center">{{ statistics["6"] }}</td>
+      </tr>
+      <tr>
+        <td class="text-center">Lost</td>
+        <td class="text-center">{{ statistics["Lost"] }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+<button class="btn btn-secondary w-100" [routerLink]="['/home']" >Home</button>
+<div style="padding-bottom: 5px">
+</div>
+<button class="btn btn-primary w-100" [routerLink]="['/game']" >Start again</button>
