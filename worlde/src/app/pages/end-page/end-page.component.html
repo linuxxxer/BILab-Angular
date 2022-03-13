@@ -1,7 +1,8 @@
 <h1 class="text-center">Game Over!</h1>
 <h3 class="text-center" [innerText]="guessedTheWord ? guessedText : notGuessedText"></h3>
 <h2 class="text-center">Statistics</h2>
-  <table>
+<div>
+  <table style="margin: auto">
     <thead>
       <tr>
         <th class="text-center">Number of tries</th>
@@ -39,7 +40,7 @@
       </tr>
     </tbody>
   </table>
-
+</div>
 <button class="btn btn-secondary w-100" [routerLink]="['/home']" >Home</button>
 <div style="padding-bottom: 5px">
 </div>
